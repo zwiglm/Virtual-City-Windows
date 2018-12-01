@@ -8,7 +8,7 @@ Actually the have been thinking about getting - physically - quite close to the 
 
 That is the reason why we want a big, **Life-Size** installation. We are thinking about an **3x3 array of apx. 40" television screens**. Maybe also rotated 90° (see Possible Components)
 
-![Sorry. Image not found](./Inline Images/Schnappschuss_112718_125600_AM.jpg "Image only as reference")   
+![Sorry. Image not found](/Inline Images/Schnappschuss_112718_125600_AM.jpg "Image only as reference")   
 *Image as reference*
 
 Our idea is to bring 2-3 connected stations/cities together for a start. For a proof of concept and a working prototype and then go on with a Kickstarter- or Indiegogo-Campaign to raise money for further features like more and deeper interaction like **Realtime-Language Translation**.
