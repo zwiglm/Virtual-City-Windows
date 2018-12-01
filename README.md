@@ -15,9 +15,9 @@ Our idea is to bring 2-3 connected stations/cities together for a start. For a p
 
 There are many more features we can think of and also are curious on your ideas and input.
 
-**Note** we want to emphasize that we are glad for any help and input. Everybody is welcome to JOIN the project. 
+**NOTE** we want to emphasize that we are glad for any help and input. Everybody is welcome to JOIN the project. 
 
-**BUT** we also want to emphasize that we think before we go on with further ideas and not to go astray we find it necessary to have 2-3 WORKING prototypes FIRST.
+**BUT** we also want to emphasize that we think - before we go on with further ideas - and not to go astray we find it necessary to have 2-3 **WORKING** prototypes **FIRST**.
 
 You can reach out:
 * directly via email to ideas@txplosion.com
