@@ -3,3 +3,5 @@
 # Except this file
 !.gitignore
 /AlphaClient.7z
+/AlphaClient_MD.7z
+/AlphaClient_Net.7z
