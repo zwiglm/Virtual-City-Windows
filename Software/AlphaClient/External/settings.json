@@ -1,0 +1,12 @@
+{
+  "servers":[
+    {
+      "ipAddr":"192.168.8.103",
+      "name":"dev-local-zwm"
+    },
+    {
+      "ipAddr":"dariogreggio.ddns.net",
+      "name":"dario-live-test"
+    }
+  ]
+}
