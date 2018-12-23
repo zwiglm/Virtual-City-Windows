@@ -138,6 +138,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Domain\uServerEntry.pas"/>
         <DCCReference Include="Services\uConfigService.pas"/>
         <DCCReference Include="Domain\uGlobalConsts.pas"/>
+        <DCCReference Include="Interfaces\iSocketService.pas"/>
+        <DCCReference Include="Services\uSocketService.pas"/>
         <None Include="External\settings.json"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

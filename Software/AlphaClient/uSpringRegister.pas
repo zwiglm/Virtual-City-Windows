@@ -11,12 +11,17 @@ implementation
 
 uses
 
-    iConfigService, uConfigService;
+    iConfigService, uConfigService,
+    iSocketService, uSocketService;
 
 
     procedure RegisterContainer(aContainer: TContainer);
     begin
-        aContainer.RegisterType<TConfigService>.Implements<TIConfigService>.AsSingleton();
+        aContainer.RegisterType<TIConfigService, TConfigService>.AsSingleton;
+        aContainer.RegisterType<TISocketService, TSocketService>.AsSingleton;
+
+        // MaZ attn: HAVE to build
+        aContainer.Build;
     end;
 
 end.

@@ -10,16 +10,13 @@ uses
   iConfigService in 'Interfaces\iConfigService.pas',
   uServerEntry in 'Domain\uServerEntry.pas',
   uConfigService in 'Services\uConfigService.pas',
-  uGlobalConsts in 'Domain\uGlobalConsts.pas';
+  uGlobalConsts in 'Domain\uGlobalConsts.pas',
+  iSocketService in 'Interfaces\iSocketService.pas',
+  uSocketService in 'Services\uSocketService.pas';
 
 var
     Container: TContainer;
-
-    // only debug now
-//    settings: TConfigService;
-//    servers: TObjectList<TServerEntry>;
-//    server: TServerEntry;
-//    name: string;
+    _socketService: TISocketService;
 
 {$R *.res}
 
@@ -32,14 +29,8 @@ begin
         try
             RegisterContainer(Container);
 
-            // only debug now
-//            settings := TConfigService.Create;
-//            servers := settings.GetServers;
-//            for server in servers do
-//            begin
-//                name := server.Name;
-//            end;
-//            settings.Free;
+            _socketService := Container.Resolve<TISocketService>;
+            _socketService.CreateSockets;
 
 
             Application.Initialize;
