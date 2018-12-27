@@ -1,9 +1,9 @@
-object FrmMain: TFrmMain
+object VidDisplayForm: TVidDisplayForm
   Left = 0
   Top = 0
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'FrmMain'
+  Caption = 'VidDisplayForm'
   ClientHeight = 338
   ClientWidth = 651
   Color = clBtnFace

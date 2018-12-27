@@ -12,13 +12,15 @@ implementation
 uses
 
     iConfigService, uConfigService,
-    iSocketService, uSocketService;
+    iSocketService, uSocketService,
+    iVideoFormsMgr, uVideoFormsMgr;
 
 
     procedure RegisterContainer(aContainer: TContainer);
     begin
         aContainer.RegisterType<TIConfigService, TConfigService>.AsSingleton;
         aContainer.RegisterType<TISocketService, TSocketService>.AsSingleton;
+        aContainer.RegisterType<TIVideoFormsMgr, TVideoFormsMgr>.AsSingleton;
 
         // MaZ attn: HAVE to build
         aContainer.Build;

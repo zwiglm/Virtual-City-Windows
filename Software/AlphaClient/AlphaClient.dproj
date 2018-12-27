@@ -110,7 +110,7 @@
 $(PostBuildEvent)]]></PostBuildEvent>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_UnitSearchPath>D:\FkShortGh\Virtual-City-Windows\Software\AlphaClient\Interfaces;D:\FkShortGh\Virtual-City-Windows\Software\AlphaClient\Services;D:\FkShortGh\Virtual-City-Windows\Software\AlphaClient\Domain;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>D:\FkShortGh\Virtual-City-Windows\Software\AlphaClient\Interfaces;D:\FkShortGh\Virtual-City-Windows\Software\AlphaClient\Services;D:\FkShortGh\Virtual-City-Windows\Software\AlphaClient\Domain;D:\FkShortGh\Virtual-City-Windows\Software\AlphaClient\Views;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -140,6 +140,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Domain\uGlobalConsts.pas"/>
         <DCCReference Include="Interfaces\iSocketService.pas"/>
         <DCCReference Include="Services\uSocketService.pas"/>
+        <DCCReference Include="Domain\uSocketEntry.pas"/>
+        <DCCReference Include="Interfaces\iVideoFormsMgr.pas"/>
+        <DCCReference Include="Services\uVideoFormsMgr.pas"/>
+        <DCCReference Include="Views\uVideoDisplayForm.pas">
+            <Form>VidDisplayForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="External\settings.json"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
