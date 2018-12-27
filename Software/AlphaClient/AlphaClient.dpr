@@ -42,8 +42,7 @@ begin
             Application.MainFormOnTaskbar := True;
 
             Application.CreateForm(TFrmMain, FrmMain);
-  Application.CreateForm(TVidDisplayForm, VidDisplayForm);
-  Application.Run;
+            Application.Run;
         finally
             Container.Free;
         end;

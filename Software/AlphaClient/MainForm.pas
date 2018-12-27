@@ -8,6 +8,7 @@ uses
 
 type
     TFrmMain = class(TForm)
+    procedure FormCreate(Sender: TObject);
     private
         { Private declarations }
     public
@@ -21,5 +22,11 @@ implementation
 
 {$R *.dfm}
 
+
+    procedure TFrmMain.FormCreate(Sender: TObject);
+    begin
+        Left := (Screen.Width - Width) div 2;
+        Top := (Screen.Height - Height) div 2;
+    end;
 
 end.
