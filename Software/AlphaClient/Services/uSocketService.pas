@@ -42,7 +42,7 @@ implementation
 
     procedure TSocketService.OnMasterTimerEvent(Sender: TObject);
     begin
-        // MaZ todo: check for live connection
+        // { TODO 3 -oMaZ -cSockets : check for live connection }
     end;
 
     procedure TSocketService.CreateMasterTimer;
