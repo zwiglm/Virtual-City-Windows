@@ -13,6 +13,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+
     procedure SocketStatusEvent(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
   end;
 
