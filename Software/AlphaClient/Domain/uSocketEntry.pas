@@ -4,16 +4,17 @@ interface
 
 uses
 
+    Windows,
     IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient;
 
 type
 
     STREAM_INFO = Record
         versione: Word;
-//        BITMAPINFOHEADER bm;	// videoformat
+        bm: TBITMAPINFOHEADER;	// videoformat
         fps: Uint32;
         quality: LongWord;
-//        EXT_WAVEFORMATEX wf;	// audioformat
+//        wf: EXT_WAVEFORMATEX;	// audioformat
         noBuffers: Boolean;	                    // server says don't buffer because transmission may be discontinous
 //        maxTime: CTimeSpan;
         authenticationWWW: Array [0..127] of char;	//a site for authentication
