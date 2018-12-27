@@ -4,7 +4,7 @@ interface
 
 uses
 
-    System.Generics.Collections,
+    System.Generics.Collections, System.SysUtils,
     uSocketEntry, uVideoDisplayForm,
     iSocketService, iVideoFormsMgr;
 
@@ -31,6 +31,7 @@ implementation
         socket: TSocketEntry;
         dummy: string;
         dummyFrm: TVidDisplayForm;
+        dummyText: string;
     begin
         allSockets := _socketService.GetAllSockets;
         for socket in allSockets do
@@ -38,6 +39,13 @@ implementation
             dummy := socket.Socket.BoundIP;
             dummyFrm := TVidDisplayForm.CreateNew(nil);
             socket.Socket.OnStatus := dummyFrm.SocketStatusEvent;
+
+            try
+                socket.Socket.Connect;
+            except on E: Exception do
+                dummyText := E.Message;
+            end;
+
             dummyFrm.Show;
         end;
     end;

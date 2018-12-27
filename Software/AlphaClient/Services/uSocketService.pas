@@ -86,8 +86,8 @@ implementation
         socket: TIdTCPClient;
     begin
         socket := TIdTCPClient.Create(nil);
-        socket.BoundIP := ipOrName;
-        socket.BoundPort := TGlobalConsts.CONTROL_SOCKET;
+        socket.Host := ipOrName;
+        socket.Port := TGlobalConsts.CONTROL_SOCKET;
 
         Result := TSocketEntry.Create(socket);
     end;
