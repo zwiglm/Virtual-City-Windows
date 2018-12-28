@@ -37,7 +37,7 @@ implementation
         for socket in allSockets do
         begin
             dummy := socket.Socket.BoundIP;
-            dummyFrm := TVidDisplayForm.CreateNew(nil, socket.Socket);
+            dummyFrm := TVidDisplayForm.CreateNew(nil, socket);
 
             try
                 socket.Socket.Connect;

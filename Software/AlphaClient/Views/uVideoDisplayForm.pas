@@ -12,12 +12,12 @@ type
   TVidDisplayForm = class(TForm)
     Image1: TImage;
 
-    _socket: TIdTCPClient;    
+    _socket: TSocketEntry;
   private
     { Private declarations }
   public
     { Public declarations }
-    constructor CreateNew(AOwner: TComponent; Socket: TIdTCPClient; Dummy: Integer = 0); overload;
+    constructor CreateNew(AOwner: TComponent; Socket: TSocketEntry; Dummy: Integer = 0); overload;
 
     // Control-Socket
     procedure SocketStatusEvent(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
@@ -34,7 +34,7 @@ implementation
 
 {$R *.dfm}
 
-    constructor TVidDisplayForm.CreateNew(AOwner: TComponent; Socket: TIdTCPClient; Dummy: Integer = 0);
+    constructor TVidDisplayForm.CreateNew(AOwner: TComponent; Socket: TSocketEntry; Dummy: Integer = 0);
     begin
         inherited CreateNew(AOwner, Dummy);
 
@@ -42,8 +42,8 @@ implementation
         BorderStyle := bsNone;
 
         _socket := Socket;
-        _socket.OnStatus := SocketStatusEvent;
-        _socket.OnConnected := SocketConnectedEvent;
+        _socket.Socket.OnStatus := SocketStatusEvent;
+        _socket.Socket.OnConnected := SocketConnectedEvent;
     end;
 
 
@@ -56,8 +56,7 @@ implementation
     var
         bufFirst: TIdBytes;
         bufStreamInfo: TIdBytes;
-        rStreamInfo: TSTREAM_INFO absolute bufStreamInfo;
-        bmSize: Integer;
+        rStreamInfo: TSTREAM_INFO;
 
         cnt1, cnt2, cnt3: Integer;
     begin
@@ -66,10 +65,10 @@ implementation
         cnt2 := SizeOf(rStreamInfo.bm);
         cnt3 := SizeOf(rStreamInfo.wf);
 
-        _socket.IOHandler.ReadBytes(bufFirst, 1);
-        _socket.IOHandler.ReadBytes(bufStreamInfo, SizeOf(rStreamInfo));
-        bmSize := rStreamInfo.bm.biSize;
-        bmSize := rStreamInfo.bm.biWidth;
+        _socket.Socket.IOHandler.ReadBytes(bufFirst, 1);
+        _socket.Socket.IOHandler.ReadBytes(bufStreamInfo, SizeOf(rStreamInfo));
+
+        rStreamInfo := _socket.convertToStreamInfo(bufStreamInfo);
     end;
 
 

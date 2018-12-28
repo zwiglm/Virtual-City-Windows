@@ -5,18 +5,19 @@ interface
 uses
 
     Windows, MMSystem,
-    IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient;
+    System.SysUtils,
+    IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdGlobal;
 
 type
 
     TEXT_WAVEFORMATEX = Record
-        wf: TWAVEFORMATEX;
+        wf: TWaveFormatEx;
 	    extra: Array [0..63] of Byte;
     End;
 
     TSTREAM_INFO = Record
         versione: UInt16;
-        bm: TBITMAPINFOHEADER;	                // videoformat
+        bm: TBitMapInfoHeader;	                // videoformat
         fps: Uint32;
         quality: Uint32;
         wf: TEXT_WAVEFORMATEX;	                // audioformat
@@ -45,6 +46,9 @@ type
         property AudioSocket: TIdTCPClient read vAudSocket;
 
         constructor Create(ctrlSocket: TIdTCPClient; vidSocket: TIdTCPClient; audSocket: TIdTCPClient);
+
+        function convertToStreamInfo(bytes: TIdBytes) : TSTREAM_INFO;
+        function convertTobmpInfoHdr(bytes: array of byte) : TBitMapInfoHeader;
     end;
 
 implementation
@@ -56,5 +60,49 @@ implementation
         vAudSocket := audSocket;
     end;
 
+
+    function TSocketEntry.convertToStreamInfo(bytes: TIdBytes) : TSTREAM_INFO;
+    var
+        streamInfo: TSTREAM_INFO;
+
+        version: Uint16;
+        bmpArray: array of byte;
+        bmp: TBitmapInfoHeader;
+    begin
+        // Version
+        WordRec(version).Hi := bytes[0];
+        WordRec(version).Lo := bytes[1];
+        streamInfo.versione := version;
+
+        // Bitmap
+//        CopyMemory(@bmpArray, @bytes[2], SizeOf(bmp));
+//        streamInfo.bm := convertTobmpInfoHdr(bmpArray);
+
+        Result := streamInfo;
+    end;
+
+    function TSocketEntry.convertTobmpInfoHdr(bytes: array of byte) : TBitMapInfoHeader;
+    var
+        bmpInfoHeader: TBitmapInfoHeader;
+
+        biSize: DWORD;
+        biWidth: Longint;
+        biHeight: Longint;
+        biPlanes: Word;
+        biBitCount: Word;
+        biCompression: DWORD;
+        biSizeImage: DWORD;
+        biXPelsPerMeter: Longint;
+        biYPelsPerMeter: Longint;
+        biClrUsed: DWORD;
+        biClrImportant: DWORD;
+    begin
+        CopyMemory(@biSize, @bytes[0], 4);
+//        biSize := PDWORD(@bytes[0..3])^;
+
+        bmpInfoHeader.biSize := biSize;
+
+        Result := bmpInfoHeader;
+    end;
 
 end.
