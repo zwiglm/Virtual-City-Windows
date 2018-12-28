@@ -83,13 +83,21 @@ implementation
 
     function TSocketService.createIndySocket(ipOrName: string) : TSocketEntry;
     var
-        socket: TIdTCPClient;
+        ctrlSocket, vidSocket, audSocket: TIdTCPClient;
     begin
-        socket := TIdTCPClient.Create(nil);
-        socket.Host := ipOrName;
-        socket.Port := TGlobalConsts.CONTROL_SOCKET;
+        ctrlSocket := TIdTCPClient.Create(nil);
+        ctrlSocket.Host := ipOrName;
+        ctrlSocket.Port := TGlobalConsts.CONTROL_SOCKET;
 
-        Result := TSocketEntry.Create(socket);
+        vidSocket := TIdTCPClient.Create(nil);
+        vidSocket.Host := ipOrName;
+        vidSocket.Port := TGlobalConsts.VIDEO_SOCKET;
+
+        audSocket := TIdTCPClient.Create(nil);
+        audSocket.Host := ipOrName;
+        audSocket.Port := TGlobalConsts.AUDIO_SOCKET;
+
+        Result := TSocketEntry.Create(ctrlSocket, vidSocket, audSocket);
     end;
 
 end.
