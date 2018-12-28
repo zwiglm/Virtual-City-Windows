@@ -11,7 +11,7 @@ type
 
     TEXT_WAVEFORMATEX = Record
         wf: TWAVEFORMATEX;
-	    extra: Array [0..64] of Byte;
+	    extra: Array [0..63] of Byte;
     End;
 
     TSTREAM_INFO = Record
@@ -20,7 +20,7 @@ type
         fps: Uint32;
         quality: Uint32;
         wf: TEXT_WAVEFORMATEX;	                // audioformat
-        noBuffers: Boolean;	                    // server says don't buffer because transmission may be discontinous
+        noBuffers: bool;	                    // server says don't buffer because transmission may be discontinous
         maxTime: Array [0..3] of Byte;          // MaZ attn: doing tricks here
         authenticationWWW: Array [0..127] of Byte;	//a site for authentication
         IDServer: Uint32;	                    // ID of server-user, for listing in the users' database

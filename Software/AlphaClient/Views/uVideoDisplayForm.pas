@@ -57,13 +57,19 @@ implementation
         bufFirst: TIdBytes;
         bufStreamInfo: TIdBytes;
         rStreamInfo: TSTREAM_INFO absolute bufStreamInfo;
+        bmSize: Integer;
+
         cnt1, cnt2, cnt3: Integer;
     begin
+        { TODO 5 -oMaZ -cDebug : remove debug }
         cnt1 := SizeOf(rStreamInfo);
         cnt2 := SizeOf(rStreamInfo.bm);
         cnt3 := SizeOf(rStreamInfo.wf);
+
         _socket.IOHandler.ReadBytes(bufFirst, 1);
         _socket.IOHandler.ReadBytes(bufStreamInfo, SizeOf(rStreamInfo));
+        bmSize := rStreamInfo.bm.biSize;
+        bmSize := rStreamInfo.bm.biWidth;
     end;
 
 
