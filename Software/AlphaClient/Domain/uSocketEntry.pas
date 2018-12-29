@@ -68,15 +68,20 @@ implementation
         version: Uint16;
         bmpArray: array of byte;
         bmp: TBitmapInfoHeader;
+  I: Integer;
     begin
         // Version
-        WordRec(version).Hi := bytes[0];
-        WordRec(version).Lo := bytes[1];
+        WordRec(version).Lo := bytes[0];
+        WordRec(version).Hi := bytes[1];
         streamInfo.versione := version;
 
         // Bitmap
-//        CopyMemory(@bmpArray, @bytes[2], SizeOf(bmp));
-//        streamInfo.bm := convertTobmpInfoHdr(bmpArray);
+        SetLength(bmpArray, SizeOf(bmp));
+        for I := 2 to (2 + SizeOf(bmp)) - 1 do
+        begin
+            bmpArray[I-2] := bytes[I];
+        end;
+        streamInfo.bm := convertTobmpInfoHdr(bmpArray);
 
         Result := streamInfo;
     end;
@@ -96,10 +101,15 @@ implementation
         biYPelsPerMeter: Longint;
         biClrUsed: DWORD;
         biClrImportant: DWORD;
-    begin
-        CopyMemory(@biSize, @bytes[0], 4);
-//        biSize := PDWORD(@bytes[0..3])^;
 
+        dum01, dum02: Word;
+    begin
+        WordRec(dum01).Lo := bytes[0];
+        WordRec(dum01).Hi := bytes[1];
+        WordRec(dum02).Lo := bytes[2];
+        WordRec(dum02).Hi := bytes[3];
+        LongRec(biSize).Hi := dum01;
+        LongRec(biSize).Lo := dum02;
         bmpInfoHeader.biSize := biSize;
 
         Result := bmpInfoHeader;
