@@ -6,6 +6,10 @@ type
 
     TGlobalConsts = class
     const
+        // Debug
+        DBG_RECEIVE_BYTES: Integer = 594;
+
+        //
         SETTING_FILE_NAME: string = 'settings.json';
 
         // Settings
@@ -14,6 +18,7 @@ type
 
         // Sockets
         MASTER_TIMER_INTERVAL: Integer = (1000 * 60 * 5);
+        FORM_TIMER_INTERVAL: Integer = (1000 * 15);
         CONTROL_SOCKET: Integer = 7600;
         TEXT_SOCKET: Integer = 7601;
         VIDEO_SOCKET: Integer = 7602;

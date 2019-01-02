@@ -29,23 +29,23 @@ implementation
     var
         allSockets: TObjectList<TSocketEntry>;
         socket: TSocketEntry;
-        dummy: string;
-        dummyFrm: TVidDisplayForm;
-        dummyText: string;
+        exceptionMsg: string;
+
+        displayForm: TVidDisplayForm;
     begin
         allSockets := _socketService.GetAllSockets;
         for socket in allSockets do
         begin
-            dummy := socket.Socket.BoundIP;
-            dummyFrm := TVidDisplayForm.CreateNew(nil, socket);
+            displayForm := TVidDisplayForm.CreateNew(nil, socket);
 
             try
                 socket.Socket.Connect;
             except on E: Exception do
-                dummyText := E.Message;
+                { TODO 3 -oMaZ -cErro Handling : Show some message on screen }
+                exceptionMsg := E.Message;
             end;
 
-            dummyFrm.Show;
+            displayForm.Show;
         end;
     end;
 

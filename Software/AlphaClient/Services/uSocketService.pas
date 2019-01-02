@@ -6,7 +6,7 @@ uses
 
     Vcl.ExtCtrls,
     System.Generics.Collections, System.SysUtils,
-    IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdIOHandlerSocket,
+    IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdIOHandlerSocket, IdIOHandlerStack,
     iSocketService, iConfigService,
     uGlobalConsts, uServerEntry, uSocketEntry;
 
@@ -88,6 +88,7 @@ implementation
         ctrlSocket := TIdTCPClient.Create(nil);
         ctrlSocket.Host := ipOrName;
         ctrlSocket.Port := TGlobalConsts.CONTROL_SOCKET;
+        ctrlSocket.IOHandler := TIdIOHandlerStack.Create;
 
         vidSocket := TIdTCPClient.Create(nil);
         vidSocket.Host := ipOrName;

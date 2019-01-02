@@ -11,6 +11,9 @@
 *.userprefs
 
 # Build results
+[Ll]arge[Ff]iles/
+
+# Build results
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

@@ -16,11 +16,12 @@ uses
   uSocketEntry in 'Domain\uSocketEntry.pas',
   iVideoFormsMgr in 'Interfaces\iVideoFormsMgr.pas',
   uVideoFormsMgr in 'Services\uVideoFormsMgr.pas',
-  uVideoDisplayForm in 'Views\uVideoDisplayForm.pas' {VidDisplayForm};
+  uVideoDisplayForm in 'Views\uVideoDisplayForm.pas' {VidDisplayForm},
+  uDataTypeHelper in 'Helpers\uDataTypeHelper.pas';
 
 var
     Container: TContainer;
-    _socketService: TISocketService;
+//    _socketService: TISocketService;
     _vidFrmsMgr: TIVideoFormsMgr;
 
 {$R *.res}
