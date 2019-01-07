@@ -17,7 +17,9 @@ uses
   iVideoFormsMgr in 'Interfaces\iVideoFormsMgr.pas',
   uVideoFormsMgr in 'Services\uVideoFormsMgr.pas',
   uVideoDisplayForm in 'Views\uVideoDisplayForm.pas' {VidDisplayForm},
-  uDataTypeHelper in 'Helpers\uDataTypeHelper.pas';
+  uDataTypeHelper in 'Helpers\uDataTypeHelper.pas',
+  uVideoDecoder in 'Helpers\uVideoDecoder.pas',
+  uPictureContainer in 'Domain\uPictureContainer.pas';
 
 var
     Container: TContainer;
@@ -43,7 +45,7 @@ begin
             Application.MainFormOnTaskbar := True;
 
             Application.CreateForm(TFrmMain, FrmMain);
-            Application.Run;
+  Application.Run;
         finally
             Container.Free;
         end;

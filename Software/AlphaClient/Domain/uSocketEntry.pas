@@ -41,7 +41,7 @@ type
 	    timestamp: DWORD;
 	    info: DWORD;			    // p.es. keyFrames=AVIIF_KEYFRAME=0x10
 	    reserved1,reserved2: Word;	// usati come cnt per buffer Asyncroni
-	    lpData: Pointer;    		// a volte i byte seguono la struct, a volte sono puntati da qua!
+	    //  lpData: Pointer;    		// a volte i byte seguono la struct, a volte sono puntati da qua!
     End;
 
 
@@ -82,7 +82,7 @@ implementation
         version: Uint16;
         bmpArray: array of byte;
         bmp: TBitmapInfoHeader;
-  I: Integer;
+        I: Integer;
     begin
         // Version
         streamInfo.versione := TDataTypeHelper.Bytes2Word(bytes[0], bytes[1]);
@@ -141,8 +141,8 @@ implementation
         tmpResult.reserved1 := TDataTypeHelper.Bytes2Word(bytes[20], bytes[21]);
         tmpResult.reserved2 := TDataTypeHelper.Bytes2Word(bytes[22], bytes[23]);
 
-        Move(bytes[24], tmpPointer, SizeOf(tmpPointer));
-        tmpResult.lpData := tmpPointer;
+//        Move(bytes[24], tmpPointer, SizeOf(tmpPointer));
+//        tmpResult.lpData := tmpPointer;
 
         Result := tmpResult;
     end;

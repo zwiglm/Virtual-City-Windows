@@ -120,9 +120,19 @@ implementation
     var
         bufPacketHeader: TIdBytes;
         avPacketHeader: TAV_PACKET_HDR;
+
+        bufFrameData: TIdBytes;
     begin
-        _socket.VideoSocket.IOHandler.ReadBytes(bufPacketHeader, Sizeof(avPacketHeader));
-        avPacketHeader := _socket.convertToAvPacketHeader(bufPacketHeader);
+        while _socket.VideoSocket.Connected do
+        begin
+
+            _socket.VideoSocket.IOHandler.ReadBytes(bufPacketHeader, Sizeof(avPacketHeader), false);
+            avPacketHeader := _socket.convertToAvPacketHeader(bufPacketHeader);
+
+            _socket.VideoSocket.IOHandler.ReadBytes(bufFrameData, avPacketHeader.len, false);
+
+            _socket.VideoSocket.IOHandler.Write(0);
+        end;
     end;
 
 

@@ -67,4 +67,5 @@ implementation
         Result := tmpLongInt;
     end;
 
+
 end.
