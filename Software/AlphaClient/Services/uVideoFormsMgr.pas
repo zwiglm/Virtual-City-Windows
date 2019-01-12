@@ -6,23 +6,25 @@ uses
 
     System.Generics.Collections, System.SysUtils,
     uSocketEntry, uVideoDisplayForm,
-    iSocketService, iVideoFormsMgr;
+    iSocketService, iVideoDecoder, iVideoFormsMgr;
 
 type
 
     TVideoFormsMgr = class(TInterfacedObject, TIVideoFormsMgr)
     private
         _socketService: TISocketService;
+        _videoDecoder: TIVideoDecoder;
     public
-        constructor Create(socketService: TISocketService);
+        constructor Create(socketService: TISocketService; videoDecoder: TIVideoDecoder);
         procedure CreateVideoDisplays();
     end;
 
 implementation
 
-    constructor TVideoFormsMgr.Create(socketService: TISocketService);
+    constructor TVideoFormsMgr.Create(socketService: TISocketService; videoDecoder: TIVideoDecoder);
     begin
         _socketService := socketService;
+        _videoDecoder := videoDecoder;
     end;
 
     procedure TVideoFormsMgr.CreateVideoDisplays;
@@ -36,7 +38,7 @@ implementation
         allSockets := _socketService.GetAllSockets;
         for socket in allSockets do
         begin
-            displayForm := TVidDisplayForm.CreateNew(nil, socket);
+            displayForm := TVidDisplayForm.CreateNew(nil, socket, _videoDecoder);
 
             try
                 socket.Socket.Connect;

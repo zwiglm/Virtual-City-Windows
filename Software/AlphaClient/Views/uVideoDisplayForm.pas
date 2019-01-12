@@ -6,7 +6,7 @@ uses
     IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdGlobal,
     Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
     Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.pngimage,
-    uSocketEntry, uGlobalConsts;
+    uSocketEntry, iVideoDecoder, uGlobalConsts;
 
 type
   TVidDisplayForm = class(TForm)
@@ -14,11 +14,12 @@ type
     FrmTimer: TTimer;
 
     _socket: TSocketEntry;
+    _videoDecoder: TIVideoDecoder;
   private
     { Private declarations }
   public
     { Public declarations }
-    constructor CreateNew(AOwner: TComponent; Socket: TSocketEntry; Dummy: Integer = 0); overload;
+    constructor CreateNew(AOwner: TComponent; Socket: TSocketEntry; VideoDecoder: TIVideoDecoder; Dummy: Integer = 0); overload;
 
     // Control-Socket
     procedure SocketStatusEvent(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
@@ -39,7 +40,8 @@ implementation
 {$R *.dfm}
 
 
-    constructor TVidDisplayForm.CreateNew(AOwner: TComponent; Socket: TSocketEntry; Dummy: Integer = 0);
+    constructor
+        TVidDisplayForm.CreateNew(AOwner: TComponent; Socket: TSocketEntry; VideoDecoder: TIVideoDecoder;Dummy: Integer = 0);
     begin
         inherited CreateNew(AOwner, Dummy);
 
@@ -58,6 +60,9 @@ implementation
         // Video-Socket
         _socket.VideoSocket.OnStatus := VideoStatusEvent;
         _socket.VideoSocket.OnConnected := VideoConnectedEvent;
+
+        // Decoder
+        _videoDecoder := VideoDecoder;
     end;
 
 
@@ -130,6 +135,9 @@ implementation
             avPacketHeader := _socket.convertToAvPacketHeader(bufPacketHeader);
 
             _socket.VideoSocket.IOHandler.ReadBytes(bufFrameData, avPacketHeader.len, false);
+
+            // MaZ attn: do decoding here atm
+            _videoDecoder.DecodeBytes(bufFrameData, avPacketHeader.len);
 
             _socket.VideoSocket.IOHandler.Write(0);
         end;

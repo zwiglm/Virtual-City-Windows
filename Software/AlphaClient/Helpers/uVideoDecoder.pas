@@ -5,6 +5,7 @@ interface
 uses
 
     Winapi.Windows, System.SysUtils, Vcl.Graphics,
+    iVideoDecoder,
     uGlobalConsts, uPictureContainer,
     FFUtils,
     libavcodec,
@@ -55,19 +56,19 @@ const
 
 type
 
-    TVideoDecoder = class
+    TVideoDecoder = class(TInterfacedObject, TIVideoDecoder)
     private
         procedure createAvBuffer(source: array of Byte; out destination: array of Byte);
+        function decodeFrame(dec_ctx: PAVCodecContext; out frame: PAVFrame; pkt: PAVPacket) : Boolean;
     public
-        function PrepareDecoder(encodedContent: array of byte; dataSize: LongInt) : Integer;
-        function DecodeFrame(dec_ctx: PAVCodecContext; frame: PAVFrame; pkt: PAVPacket) : TPictureContainer;
+        function DecodeBytes(encodedContent: array of byte; dataSize: LongInt) : Integer;
     end;
 
 
 
 implementation
 
-    function TVideoDecoder.PrepareDecoder(encodedContent: array of byte; dataSize: LongInt) : Integer;
+    function TVideoDecoder.DecodeBytes(encodedContent: array of byte; dataSize: LongInt) : Integer;
     var
         codec: PAVCodec;
         parser: PAVCodecParserContext;
@@ -93,6 +94,7 @@ implementation
         FillChar(inbuf[INBUF_SIZE], AV_INPUT_BUFFER_PADDING_SIZE, 0);
 
         (* find the MPEG1 video decoder *)
+//        codec := avcodec_find_decoder(AV_CODEC_ID_MPEG1VIDEO);
         codec := avcodec_find_decoder(AV_CODEC_ID_INDEO5);
         if not Assigned(codec) then
         begin
@@ -132,38 +134,38 @@ implementation
             Exit;
         end;
 
-  while True do // not feof(f)
-  begin
-    (* read raw data from the input file *)
-    createAvBuffer(encodedContent, inbuf);
-    data_size := dataSize;
-
-    (* use the parser to split the data into frames *)
-    data := @inbuf[0];
-    while data_size > 0 do
-    begin
-      ret := av_parser_parse2(parser, c, @pkt.data, @pkt.size, data, data_size, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
-      if ret < 0 then
-      begin
-        Result := 1;
-        Exit;
-      end;
-      Inc(data, ret);
-      Dec(data_size, ret);
-
-      if pkt.size <> 0 then
-        if decodeFrame(c, frame, pkt).Error <> TGlobalConsts.NO_ERROR then
+        while True do // not feof(f)
         begin
-          Result := 1;
-          Exit;
+          (* read raw data from the input file *)
+          createAvBuffer(encodedContent, inbuf);
+          data_size := dataSize;
+
+          (* use the parser to split the data into frames *)
+          data := @inbuf[0];
+          while data_size > 0 do
+          begin
+            ret := av_parser_parse2(parser, c, @pkt.data, @pkt.size, data, data_size, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
+            if ret < 0 then
+            begin
+              Result := 1;
+              Exit;
+            end;
+            Inc(data, ret);
+            Dec(data_size, ret);
+
+            if pkt.size <> 0 then
+              if Not decodeFrame(c, frame, pkt) then
+              begin
+                Result := 1;
+                Exit;
+              end;
+          end;
         end;
-    end;
-  end;
         Result := TGlobalConsts.NO_ERROR;
 
-  (* flush the decoder *)
-  if decodeFrame(c, frame, nil).Error <> TGlobalConsts.NO_ERROR then
-    Result := 1;
+        (* flush the decoder *)
+        if Not decodeFrame(c, frame, nil) then
+          Result := 1;
 
         av_parser_close(parser);
         avcodec_free_context(@c);
@@ -172,11 +174,41 @@ implementation
     end;
 
 
-    function TVideoDecoder.decodeFrame(dec_ctx: PAVCodecContext; frame: PAVFrame; pkt: PAVPacket) : TPictureContainer;
+    function TVideoDecoder.decodeFrame(dec_ctx: PAVCodecContext; out frame: PAVFrame; pkt: PAVPacket) : Boolean;
+    var
+      ret: Integer;
     begin
+      ret := avcodec_send_packet(dec_ctx, pkt);
+      if ret < 0 then
+      begin
+//        Writeln(ErrOutput, 'Error sending a packet for decoding');
+        Result := False;
+        Exit;
+      end;
 
+      while ret >= 0 do
+      begin
+        ret := avcodec_receive_frame(dec_ctx, frame);
+        if (ret = AVERROR_EAGAIN) or (ret = AVERROR_EOF) then
+        begin
+          Result := True;
+          Exit;
+        end
+        else if ret < 0 then
+            begin
+//              Writeln(ErrOutput, 'Error during decoding');
+              Result := False;
+              Exit;
+            end;
+
+//        Writeln(Format('saving frame %3d', [dec_ctx.frame_number]));
+        //fflush(stdout);
+
+        (* the picture is allocated by the decoder, no need to free it *)
+      end;
+
+      Result := True;
     end;
-
 
     procedure TVideoDecoder.createAvBuffer(source: array of Byte; out destination: array of Byte);
     var

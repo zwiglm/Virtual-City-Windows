@@ -5,7 +5,7 @@ interface
 uses
     Spring.Container;
 
-    procedure RegisterContainer(aContainer: TContainer);
+    procedure RegisterGlobally;
 
 implementation
 
@@ -13,17 +13,19 @@ uses
 
     iConfigService, uConfigService,
     iSocketService, uSocketService,
-    iVideoFormsMgr, uVideoFormsMgr;
+    iVideoFormsMgr, uVideoFormsMgr,
+    iVideoDecoder, uVideoDecoder;
 
 
-    procedure RegisterContainer(aContainer: TContainer);
+    procedure RegisterGlobally();
     begin
-        aContainer.RegisterType<TIConfigService, TConfigService>.AsSingleton;
-        aContainer.RegisterType<TISocketService, TSocketService>.AsSingleton;
-        aContainer.RegisterType<TIVideoFormsMgr, TVideoFormsMgr>.AsSingleton;
+        GlobalContainer.RegisterType<TIConfigService, TConfigService>.AsSingleton;
+        GlobalContainer.RegisterType<TISocketService, TSocketService>.AsSingleton;
+        GlobalContainer.RegisterType<TIVideoFormsMgr, TVideoFormsMgr>.AsSingleton;
+        GlobalContainer.RegisterType<TIVideoDecoder, TVideoDecoder>;
 
         // MaZ attn: HAVE to build
-        aContainer.Build;
+        GlobalContainer.Build;
     end;
 
 end.

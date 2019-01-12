@@ -156,6 +156,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Helpers\uDataTypeHelper.pas"/>
         <DCCReference Include="Helpers\uVideoDecoder.pas"/>
         <DCCReference Include="Domain\uPictureContainer.pas"/>
+        <DCCReference Include="Interfaces\iVideoDecoder.pas"/>
         <None Include="External\settings.json"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

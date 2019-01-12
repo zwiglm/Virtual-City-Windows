@@ -19,11 +19,10 @@ uses
   uVideoDisplayForm in 'Views\uVideoDisplayForm.pas' {VidDisplayForm},
   uDataTypeHelper in 'Helpers\uDataTypeHelper.pas',
   uVideoDecoder in 'Helpers\uVideoDecoder.pas',
-  uPictureContainer in 'Domain\uPictureContainer.pas';
+  uPictureContainer in 'Domain\uPictureContainer.pas',
+  iVideoDecoder in 'Interfaces\iVideoDecoder.pas';
 
 var
-    Container: TContainer;
-//    _socketService: TISocketService;
     _vidFrmsMgr: TIVideoFormsMgr;
 
 {$R *.res}
@@ -33,21 +32,19 @@ begin
     try
 
         // Register Container here
-        Container := TContainer.Create;
         try
-            RegisterContainer(Container);
-//            _socketService := Container.Resolve<TISocketService>;
-//            _socketService.CreateSockets;
-            _vidFrmsMgr := Container.Resolve<TIVideoFormsMgr>;
+            // MaZ attn: Spring4d
+            RegisterGlobally;
+            _vidFrmsMgr := GlobalContainer.Resolve<TIVideoFormsMgr>;
             _vidFrmsMgr.CreateVideoDisplays;
 
             Application.Initialize;
             Application.MainFormOnTaskbar := True;
 
             Application.CreateForm(TFrmMain, FrmMain);
-  Application.Run;
+            Application.Run;
         finally
-            Container.Free;
+            GlobalContainer.Free;
         end;
 
     except on E: Exception do
