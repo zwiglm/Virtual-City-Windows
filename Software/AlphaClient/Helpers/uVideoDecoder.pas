@@ -4,7 +4,7 @@ interface
 
 uses
 
-    Winapi.Windows, System.SysUtils, Vcl.Graphics,
+    Winapi.Windows, System.SysUtils, Vcl.ExtCtrls, Vcl.Graphics,
     iVideoDecoder,
     uGlobalConsts, uPictureContainer,
     FFUtils,
@@ -57,6 +57,9 @@ const
 type
 
     TVideoDecoder = class(TInterfacedObject, TIVideoDecoder)
+    var
+        // TImage -> TPicture -> TBitmap -> Bitmap
+        _currImage : TImage;
     private
         procedure createAvBuffer(source: array of Byte; out destination: array of Byte);
         function decodeFrame(dec_ctx: PAVCodecContext; out frame: PAVFrame; pkt: PAVPacket) : Boolean;
@@ -82,6 +85,8 @@ implementation
         ret: Integer;
         pkt: PAVPacket;
     begin
+        avcodec_register_all();
+
         pkt := av_packet_alloc();
         if not Assigned(pkt) then
         begin
@@ -99,13 +104,6 @@ implementation
         if not Assigned(codec) then
         begin
             Result := TGlobalConsts.AV_FIND_DECODER_ERR;
-            Exit;
-        end;
-
-        parser := av_parser_init(Ord(codec.id));
-        if not Assigned(parser) then
-        begin
-            Result := TGlobalConsts.AV_PARSER_INIT_ERR;
             Exit;
         end;
 
