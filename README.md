@@ -31,5 +31,5 @@ Besides the communicating software in the first version, we think that every loc
 
 * directly via email to ideas@txplosion.com
 * join the discussion at [our Flarum Discussion](https://discuss.txplosion.com)
-* initial [Server-Software](https://github.com/dariogreggio/VideoSender)
+* initial [Server-Software](https://github.com/zwiglm/VideoSender)
 * Our first [presentation](https://prezi.com/view/f478g6fqUp1b9AxRk54P/) (currently only in German. English will follow ASAP)
